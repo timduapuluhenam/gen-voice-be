@@ -14,6 +14,8 @@ import (
 	_middleware "genVoice/app/middlewares"
 	_routes "genVoice/app/routes"
 
+	"os"
+
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
@@ -66,6 +68,9 @@ func main() {
 	}
 
 	routesInit.RouteRegister(e)
-
-	log.Fatal(e.Start(viper.GetString("server.address")))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = ":8000"
+	}
+	log.Fatal(e.Start(port))
 }
