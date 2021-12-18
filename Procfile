@@ -1,1 +1,1 @@
-web: go run .\app\main.go
+web: bin/genVoice
