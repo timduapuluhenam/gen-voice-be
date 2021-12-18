@@ -1,1 +1,1 @@
-web: genVoice
+web: main
