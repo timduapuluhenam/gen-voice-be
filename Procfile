@@ -1,1 +1,1 @@
-web: bin/genVoice
+web: genVoice
