@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	_driverFactory "genVoice/drivers"
@@ -69,6 +70,7 @@ func main() {
 
 	routesInit.RouteRegister(e)
 	port := os.Getenv("PORT")
+	fmt.Print(port)
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
