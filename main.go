@@ -70,7 +70,7 @@ func main() {
 	routesInit.RouteRegister(e)
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = ":8000"
+		log.Fatal("$PORT must be set")
 	}
 	log.Fatal(e.Start(port))
 }
