@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	_driverFactory "genVoice/drivers"
@@ -14,6 +15,9 @@ import (
 	_middleware "genVoice/app/middlewares"
 	_routes "genVoice/app/routes"
 
+	"os"
+
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
@@ -66,6 +70,12 @@ func main() {
 	}
 
 	routesInit.RouteRegister(e)
-
-	log.Fatal(e.Start(viper.GetString("server.address")))
+	godotenv.Load()
+	port := os.Getenv("PORT")
+	fmt.Print(port)
+	address := fmt.Sprintf("%s:%s", "0.0.0.0", port)
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
+	log.Fatal(e.Start(address))
 }
