@@ -4,6 +4,7 @@ import (
 	"errors"
 	middlewareApp "genVoice/app/middlewares"
 	controller "genVoice/controllers"
+	"genVoice/controllers/invoices"
 	"genVoice/controllers/users"
 	"net/http"
 
@@ -12,15 +13,21 @@ import (
 )
 
 type ControllerList struct {
-	JwtConfig      middleware.JWTConfig
-	JWTMiddleware  middleware.JWTConfig
-	UserController users.UserController
+	JwtConfig     middleware.JWTConfig
+	JWTMiddleware middleware.JWTConfig
+
+	UserController    users.UserController
+	InvoiceController invoices.InvoiceController
 }
 
 func (cl *ControllerList) RouteRegister(e *echo.Echo) {
 	users := e.Group("users")
 	users.POST("/register", cl.UserController.Register)
 	users.POST("/login", cl.UserController.Login)
+
+	invoices := e.Group("invoices")
+	invoices.POST("/add", cl.InvoiceController.CreateInvoice)
+	invoices.POST("/details", cl.InvoiceController.CreateInvoiceDetail)
 }
 
 func RoleValidationUser() echo.MiddlewareFunc {

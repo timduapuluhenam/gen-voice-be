@@ -7,10 +7,10 @@
 		"timeout": 2
 	},
 	"database": {
-		"host": "ec2-52-201-106-191.compute-1.amazonaws.com",
+		"host": "localhost",
 		"port": "5432",
-		"user": "cvleiufnvqelki",
-		"pass": "b9abd7d5832be4c11c6f1f46b3ade25cdf644c118e07eb03e42bad8b3efc7c32",
-		"name": "d4l8eo8iklnedb"
+		"user": "postgres",
+		"pass": "barin12345",
+		"name": "gen-voice"
 	}
 }
