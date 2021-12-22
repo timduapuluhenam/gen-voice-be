@@ -23,6 +23,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
@@ -65,7 +66,10 @@ func main() {
 	}
 
 	e := echo.New()
-
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))
 	userRepo := _driverFactory.NewUserRepository(db)
 	userService := _userService.NewUserService(userRepo, 10, &configJWT)
 	userCtrl := _userController.NewUserController(userService)
