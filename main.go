@@ -73,6 +73,7 @@ func main() {
 		Debug:          true,
 	})
 	e.Use(echo.WrapMiddleware(corsMiddleware.Handler))
+
 	userRepo := _driverFactory.NewUserRepository(db)
 	userService := _userService.NewUserService(userRepo, 10, &configJWT)
 	userCtrl := _userController.NewUserController(userService)
