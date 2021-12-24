@@ -10,6 +10,10 @@ import (
 	_userController "genVoice/controllers/users"
 	_userRepo "genVoice/drivers/databases/users"
 
+	_invoiceService "genVoice/business/invoices"
+	_invoiceController "genVoice/controllers/invoices"
+	_invoiceRepo "genVoice/drivers/databases/invoices"
+
 	_dbDriver "genVoice/drivers/postgres"
 
 	_middleware "genVoice/app/middlewares"
@@ -19,6 +23,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/rs/cors"
 	"github.com/spf13/viper"
 	"gorm.io/gorm"
 )
@@ -38,6 +43,8 @@ func init() {
 func dbMigrate(db *gorm.DB) {
 	db.AutoMigrate(
 		&_userRepo.Users{},
+		&_invoiceRepo.Invoices{},
+		&_invoiceRepo.InvoiceDetail{},
 	)
 }
 
@@ -59,14 +66,26 @@ func main() {
 	}
 
 	e := echo.New()
+	corsMiddleware := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"OPTIONS", "GET", "POST", "PUT"},
+		AllowedHeaders: []string{"*"},
+		Debug:          true,
+	})
+	e.Use(echo.WrapMiddleware(corsMiddleware.Handler))
 
 	userRepo := _driverFactory.NewUserRepository(db)
 	userService := _userService.NewUserService(userRepo, 10, &configJWT)
 	userCtrl := _userController.NewUserController(userService)
 
+	invoiceRepo := _driverFactory.NewInvoiceRepository(db)
+	invoiceService := _invoiceService.NewInvoiceService(invoiceRepo, 10, &configJWT)
+	invoiceCtrl := _invoiceController.NewInvoiceController(invoiceService)
+
 	routesInit := _routes.ControllerList{
-		JwtConfig:      configJWT.Init(),
-		UserController: *userCtrl,
+		JwtConfig:         configJWT.Init(),
+		UserController:    *userCtrl,
+		InvoiceController: *invoiceCtrl,
 	}
 
 	routesInit.RouteRegister(e)
