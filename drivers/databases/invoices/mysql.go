@@ -1,7 +1,6 @@
 package invoices
 
 import (
-	"fmt"
 	"genVoice/business/invoices"
 
 	"gorm.io/gorm"
@@ -17,26 +16,24 @@ func NewMysqlInvoiceRepository(conn *gorm.DB) invoices.Repository {
 	}
 }
 
-func (rep *MysqlInvoiceRepository) CreateInvoice(invoicedomain *invoices.InvoiceDomain) (invoices.InvoiceDomain, error) {
-	fmt.Print(invoicedomain)
-	invoice := fromInvoiceDomain(*invoicedomain)
-	result := rep.Conn.Create(&invoice)
+func (rep *MysqlInvoiceRepository) CreateInvoiceDetail(invoiceDetailDomain *invoices.DatasDomain) (invoices.DatasDomain, error) {
 
-	if result.Error != nil {
-		return invoices.InvoiceDomain{}, result.Error
+	invoic := fromInvoiceDomain(invoiceDetailDomain)
+	// fmt.Print(invoic)
+	resultInvoice := rep.Conn.Create(&invoic)
+
+	id := invoic.ID
+	invoiceDetail := fromInvoiceDetailDomain(invoiceDetailDomain, id)
+	// fmt.Print(invoiceDetail)
+	resultInvoiceDetail := rep.Conn.Create(&invoiceDetail)
+
+	if resultInvoice.Error != nil {
+		return invoices.DatasDomain{}, resultInvoice.Error
 	}
-
-	return toInvoiceDomain(invoice), nil
-}
-
-func (rep *MysqlInvoiceRepository) CreateInvoiceDetail(invoiceDetailDomain []*invoices.InvoiceDetailDomain) ([]invoices.InvoiceDetailDomain, error) {
-	// fmt.Print(invoiceDetailDomain)
-	invoiceDetail := fromInvoiceDetailDomain(invoiceDetailDomain)
-	result := rep.Conn.Create(&invoiceDetail)
-
-	if result.Error != nil {
-		return []invoices.InvoiceDetailDomain{}, result.Error
+	if resultInvoiceDetail.Error != nil {
+		return invoices.DatasDomain{}, resultInvoiceDetail.Error
 	}
+	// fmt.Print("mysql go invoice nih", invoic, invoiceDetail)
+	return toListDomain(invoic, invoiceDetail), nil
 
-	return toListInvoiceDetailDomain(invoiceDetail), nil
 }

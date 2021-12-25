@@ -4,6 +4,10 @@ import (
 	"time"
 )
 
+type DatasDomain struct {
+	DataInvoice   InvoiceDomain
+	InvoiceDetail []InvoiceDetailDomain
+}
 type InvoiceDomain struct {
 	ID        int
 	UserID    int
@@ -13,23 +17,21 @@ type InvoiceDomain struct {
 }
 
 type InvoiceDetailDomain struct {
-	ID        int
-	Name      string
-	Email     string
-	Amount    int
-	EventID   string
-	Link      string
-	Status    string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID           int
+	Name         string
+	Email        string
+	Amount       int
+	EventID      int
+	SignatureKey string
+	Link         string
+	Status       string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
 }
-
 type Service interface {
-	CreateInvoice(invoicedomain *InvoiceDomain) (InvoiceDomain, error)
-	CreateInvoiceDetail(invoiceDetailDomain []*InvoiceDetailDomain) ([]InvoiceDetailDomain, error)
+	CreateInvoiceDetail(invoiceDetailDomain *DatasDomain) (DatasDomain, error)
 }
 
 type Repository interface {
-	CreateInvoice(invoicedomain *InvoiceDomain) (InvoiceDomain, error)
-	CreateInvoiceDetail(invoiceDetailDomain []*InvoiceDetailDomain) ([]InvoiceDetailDomain, error)
+	CreateInvoiceDetail(invoiceDetailDomain *DatasDomain) (DatasDomain, error)
 }
