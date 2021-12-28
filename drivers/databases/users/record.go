@@ -10,7 +10,7 @@ type Users struct {
 	Name      string
 	Username  string `gorm:"unique"`
 	Password  string
-	Email     string
+	Email     string `gorm:"unique"`
 	Address   string
 	CreatedAt time.Time
 	UpdatedAt time.Time

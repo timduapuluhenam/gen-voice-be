@@ -5,6 +5,7 @@ import (
 	middlewareApp "genVoice/app/middlewares"
 	controller "genVoice/controllers"
 	"genVoice/controllers/invoices"
+	"genVoice/controllers/notifications"
 	"genVoice/controllers/users"
 	"net/http"
 
@@ -18,6 +19,7 @@ type ControllerList struct {
 
 	UserController    users.UserController
 	InvoiceController invoices.InvoiceController
+	NotifController   notifications.NotifController
 }
 
 func (cl *ControllerList) RouteRegister(e *echo.Echo) {
@@ -26,8 +28,8 @@ func (cl *ControllerList) RouteRegister(e *echo.Echo) {
 	users.POST("/login", cl.UserController.Login)
 
 	invoices := e.Group("invoices")
-	invoices.POST("/add", cl.InvoiceController.CreateInvoice)
-	invoices.POST("/details", cl.InvoiceController.CreateInvoiceDetail)
+	invoices.POST("/add", cl.InvoiceController.CreateInvoiceDetail, middleware.JWTWithConfig(cl.JwtConfig))
+	e.POST("/notification", cl.NotifController.GetNotif)
 }
 
 func RoleValidationUser() echo.MiddlewareFunc {

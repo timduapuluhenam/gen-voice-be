@@ -29,7 +29,7 @@ func (ctrl *UserController) Register(c echo.Context) error {
 	fmt.Print(req)
 	data, err := ctrl.UserService.Register(req.ToDomain())
 	if err != nil {
-		return controller.NewErrorResponse(c, http.StatusInternalServerError, err)
+		return controller.NewErrorResponse(c, http.StatusBadRequest, err)
 	}
 
 	return controller.NewSuccessResponse(c, response.FromDomainRegister(data))
@@ -43,7 +43,7 @@ func (ctrl *UserController) Login(c echo.Context) error {
 	}
 	data, err := ctrl.UserService.Login(req.Username, req.Password)
 	if err != nil {
-		return controller.NewErrorResponse(c, http.StatusInternalServerError, err)
+		return controller.NewErrorResponse(c, http.StatusBadRequest, err)
 	}
 
 	return controller.NewSuccessResponse(c, response.FromDomainLogin(data))
