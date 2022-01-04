@@ -4,7 +4,7 @@ type InvoiceDetail struct {
 	Email   string
 	Name    string
 	Amount  int
-	EventID string
+	EventID int
 }
 
 type Invoice struct {
