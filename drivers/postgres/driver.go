@@ -17,7 +17,7 @@ type ConfigDB struct {
 }
 
 func (config *ConfigDB) InitDB() *gorm.DB {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta",
+	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require TimeZone=Asia/Jakarta",
 		config.DB_Host,
 		config.DB_Username,
 		config.DB_Password,
