@@ -10,6 +10,8 @@ import (
 	_userController "genVoice/controllers/users"
 	_userRepo "genVoice/drivers/databases/users"
 
+	_activityRepo "genVoice/drivers/databases/activities"
+
 	_invoiceService "genVoice/business/invoices"
 	_invoiceController "genVoice/controllers/invoices"
 	_invoiceRepo "genVoice/drivers/databases/invoices"
@@ -49,6 +51,7 @@ func dbMigrate(db *gorm.DB) {
 		&_userRepo.Users{},
 		&_invoiceRepo.Invoices{},
 		&_invoiceRepo.InvoiceDetail{},
+		&_activityRepo.Activities{},
 	)
 }
 
@@ -99,12 +102,14 @@ func main() {
 	userService := _userService.NewUserService(userRepo, 24, &configJWT)
 	userCtrl := _userController.NewUserController(userService)
 
+	activityRepo := _driverFactory.NewActivityRepository(db)
+
 	invoiceRepo := _driverFactory.NewInvoiceRepository(db)
-	invoiceService := _invoiceService.NewInvoiceService(invoiceRepo, 24, &configJWT)
+	invoiceService := _invoiceService.NewInvoiceService(invoiceRepo, activityRepo, 24, &configJWT)
 	invoiceCtrl := _invoiceController.NewInvoiceController(invoiceService)
 
 	notifRepo := _driverFactory.NewNotifRepository(db)
-	notifService := _notifService.NewNotifService(notifRepo, 24, &configJWT)
+	notifService := _notifService.NewNotifService(notifRepo, activityRepo, 24, &configJWT)
 	notifCtrl := _notifController.NewNotifController(notifService)
 
 	routesInit := _routes.ControllerList{

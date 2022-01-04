@@ -4,6 +4,9 @@ import (
 	userDomain "genVoice/business/users"
 	userDB "genVoice/drivers/databases/users"
 
+	activityDomain "genVoice/business/activities"
+	activityDB "genVoice/drivers/databases/activities"
+
 	invoiceDomain "genVoice/business/invoices"
 	invoiceDB "genVoice/drivers/databases/invoices"
 
@@ -23,4 +26,8 @@ func NewInvoiceRepository(conn *gorm.DB) invoiceDomain.Repository {
 
 func NewNotifRepository(conn *gorm.DB) notifDomain.Repository {
 	return notifDB.NewMysqlNotifRepository(conn)
+}
+
+func NewActivityRepository(conn *gorm.DB) activityDomain.Repository {
+	return activityDB.NewMysqlActivityRepository(conn)
 }
