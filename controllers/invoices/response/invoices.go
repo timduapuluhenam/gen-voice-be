@@ -24,7 +24,7 @@ type InvoiceDetailResponse struct {
 	// Message   string    `json:"message"`
 	ID    int    `json:"id:"`
 	Name  string `json:"name"`
-	Email string `json:"emial"`
+	Email string `json:"email"`
 
 	Amount    int       `json:"amount"`
 	EventID   int       `json:"event_id"`
