@@ -23,6 +23,7 @@ type Invoices struct {
 	ID            int `gorm:"primaryKey"`
 	Name          string
 	UserID        int
+	TimeExpired   int
 	InvoiceDetail []InvoiceDetail `gorm:"foreignKey:EventID"`
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
@@ -65,6 +66,7 @@ func fromInvoiceDomain(domain *invoices.DatasDomain) Invoices {
 	result.ID = domain.DataInvoice.ID
 	result.Name = domain.DataInvoice.Name
 	result.UserID = domain.DataInvoice.UserID
+	result.TimeExpired = domain.DataInvoice.TimeExpired
 	result.CreatedAt = domain.DataInvoice.CreatedAt
 	result.UpdatedAt = domain.DataInvoice.UpdatedAt
 
@@ -79,7 +81,7 @@ func fromInvoiceDetailDomain(domain *invoices.DatasDomain, id int) []InvoiceDeta
 			Amount: e.Amount, EventID: id, Link: e.Link, Status: e.Status, CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt})
 	}
 
-	return paymentLink(resultInvoiceDetail)
+	return paymentLink(resultInvoiceDetail, domain.DataInvoice.TimeExpired)
 }
 
 func toListDomain(use Invoices, invoic []InvoiceDetail) invoices.DatasDomain {
@@ -94,7 +96,7 @@ func toListDomain(use Invoices, invoic []InvoiceDetail) invoices.DatasDomain {
 
 var s snap.Client
 
-func paymentLink(datas []InvoiceDetail) []InvoiceDetail {
+func paymentLink(datas []InvoiceDetail, timeExpired int) []InvoiceDetail {
 	for i := 0; i < len(datas); i++ {
 		uuid := uuid.New().String()
 		signature_key := (uuid + "200" + strconv.Itoa(datas[i].Amount) + ".00" + "SB-Mid-server-sYHf9k6xSdZJa780ILj-MYXB")
@@ -102,9 +104,15 @@ func paymentLink(datas []InvoiceDetail) []InvoiceDetail {
 		hasher.Write([]byte(signature_key))
 		sha := hex.EncodeToString(hasher.Sum(nil))
 		datas[i].SignatureKey = sha
-		fmt.Println("S H A : ", sha)
 
 		s.New("SB-Mid-server-sYHf9k6xSdZJa780ILj-MYXB", midtrans.Sandbox)
+
+		t := time.Now()
+		formatted := fmt.Sprintf("%d-%02d-%02d %02d:%02d:%02d +0700",
+			t.Year(), t.Month(), t.Day(),
+			t.Hour(), t.Minute(), t.Second())
+		fmt.Println("W A K TU : ", timeExpired)
+
 		req := &snap.Request{
 			TransactionDetails: midtrans.TransactionDetails{
 				OrderID:  uuid,
@@ -119,6 +127,11 @@ func paymentLink(datas []InvoiceDetail) []InvoiceDetail {
 				LName: "",
 				Email: datas[i].Email,
 				Phone: "081234567890",
+			},
+			Expiry: &snap.ExpiryDetails{
+				StartTime: formatted,
+				Unit:      "days",
+				Duration:  int64(timeExpired),
 			},
 		}
 
