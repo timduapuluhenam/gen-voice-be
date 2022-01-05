@@ -2,6 +2,7 @@ package users
 
 import (
 	"fmt"
+	"genVoice/business/invoices"
 	"genVoice/business/notifications"
 
 	// emailSucces "genVoice/helper/mail/mailSuccess"
@@ -37,4 +38,13 @@ func (rep *MysqlNotifRepository) GetNotif(status, signature_key string) error {
 	// Email(to string, name string, amount string, event string)
 	return nil
 
+}
+
+func (rep *MysqlNotifRepository) GetUserBySignature(signature_key string) (invoices.InvoiceDetailDomain, error) {
+	invoiceDetail := InvoiceDetail{}
+	result := rep.Conn.Find(&invoiceDetail, "signature_key = ? ", signature_key)
+	if result.Error != nil {
+		return invoices.InvoiceDetailDomain{}, result.Error
+	}
+	return invoices.InvoiceDetailDomain{Name: invoiceDetail.Name, EventID: invoiceDetail.EventID}, nil
 }
