@@ -7,7 +7,7 @@ import (
 
 type UserRegisterResponse struct {
 	Message   string    `json:"message"`
-	ID        int       `json:"id:"`
+	ID        int       `json:"id"`
 	Username  string    `json:"username"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -25,12 +25,14 @@ func FromDomainRegister(domain users.Domain) UserRegisterResponse {
 
 type UserLoginResponse struct {
 	Message string `json:"message"`
+	ID      int    `json:"id"`
 	Token   string `json:"token"`
 }
 
 func FromDomainLogin(domain users.Domain) UserLoginResponse {
 	return UserLoginResponse{
 		Message: "Login Success",
+		ID:      domain.ID,
 		Token:   domain.Token,
 	}
 }
