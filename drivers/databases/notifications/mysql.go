@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"genVoice/business/invoices"
 	"genVoice/business/notifications"
+	invRepo "genVoice/drivers/databases/invoices"
 
 	// emailSucces "genVoice/helper/mail/mailSuccess"
 	// "strconv"
@@ -40,11 +41,13 @@ func (rep *MysqlNotifRepository) GetNotif(status, signature_key string) error {
 
 }
 
-func (rep *MysqlNotifRepository) GetUserBySignature(signature_key string) (invoices.InvoiceDetailDomain, error) {
+func (rep *MysqlNotifRepository) GetUserBySignature(signature_key string) (invoices.InvoiceDetailDomain, int, error) {
 	invoiceDetail := InvoiceDetail{}
+	invoice := invRepo.Invoices{}
 	result := rep.Conn.Find(&invoiceDetail, "signature_key = ? ", signature_key)
+	rep.Conn.Find(&invoice, "id = ? ", invoiceDetail.EventID)
 	if result.Error != nil {
-		return invoices.InvoiceDetailDomain{}, result.Error
+		return invoices.InvoiceDetailDomain{}, 0, result.Error
 	}
-	return invoices.InvoiceDetailDomain{Name: invoiceDetail.Name, EventID: invoiceDetail.EventID}, nil
+	return invoices.InvoiceDetailDomain{Name: invoiceDetail.Name, Amount: invoiceDetail.Amount, EventID: invoiceDetail.EventID}, invoice.UserID, nil
 }
