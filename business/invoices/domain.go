@@ -9,11 +9,12 @@ type DatasDomain struct {
 	InvoiceDetail []InvoiceDetailDomain
 }
 type InvoiceDomain struct {
-	ID        int
-	UserID    int
-	Name      string
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID          int
+	UserID      int
+	Name        string
+	TimeExpired int
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
 type InvoiceDetailDomain struct {

@@ -27,22 +27,24 @@ func NewNotifService(repo Repository, activityRepo activities.Repository, timeou
 
 func (servUser *NotifService) GetNotif(status, signature_key string) error {
 	servUser.repository.GetNotif(status, signature_key)
-	user, _ := servUser.repository.GetUserBySignature(signature_key)
-	_, errActivity := servUser.activityRepo.CreateActivity(&activities.Domain{
-		UserID:   user.ID,
-		Activity: fmt.Sprintf("Pelanggan %s telah melakukan pembayaran sejumlah %d pada invoice %d", user.Name, user.Amount, user.EventID)})
+	if status == "settlement" {
+		customer, userID, _ := servUser.repository.GetUserBySignature(signature_key)
 
-	if errActivity != nil {
-		return nil
+		_, errActivity := servUser.activityRepo.CreateActivity(&activities.Domain{
+			UserID:   userID,
+			Activity: fmt.Sprintf("Pelanggan %s telah melakukan pembayaran sejumlah %d pada invoice %d", customer.Name, customer.Amount, customer.EventID)})
+
+		if errActivity != nil {
+			return nil
+		}
 	}
-
 	return nil
 }
 
-func (servUser *NotifService) GetUserBySignature(signature_key string) (invoices.InvoiceDetailDomain, error) {
-	invoiceDetail, err := servUser.repository.GetUserBySignature(signature_key)
+func (servUser *NotifService) GetUserBySignature(signature_key string) (invoices.InvoiceDetailDomain, int, error) {
+	invoiceDetail, userID, err := servUser.repository.GetUserBySignature(signature_key)
 	if err != nil {
-		return invoices.InvoiceDetailDomain{}, err
+		return invoices.InvoiceDetailDomain{}, userID, err
 	}
-	return invoiceDetail, nil
+	return invoiceDetail, userID, nil
 }
