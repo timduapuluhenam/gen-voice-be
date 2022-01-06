@@ -27,16 +27,17 @@ func NewNotifService(repo Repository, activityRepo activities.Repository, timeou
 
 func (servUser *NotifService) GetNotif(status, signature_key string) error {
 	servUser.repository.GetNotif(status, signature_key)
-	customer, userID, _ := servUser.repository.GetUserBySignature(signature_key)
+	if status == "settlement" {
+		customer, userID, _ := servUser.repository.GetUserBySignature(signature_key)
 
-	_, errActivity := servUser.activityRepo.CreateActivity(&activities.Domain{
-		UserID:   userID,
-		Activity: fmt.Sprintf("Pelanggan %s telah melakukan pembayaran sejumlah %d pada invoice %d", customer.Name, customer.Amount, customer.EventID)})
+		_, errActivity := servUser.activityRepo.CreateActivity(&activities.Domain{
+			UserID:   userID,
+			Activity: fmt.Sprintf("Pelanggan %s telah melakukan pembayaran sejumlah %d pada invoice %d", customer.Name, customer.Amount, customer.EventID)})
 
-	if errActivity != nil {
-		return nil
+		if errActivity != nil {
+			return nil
+		}
 	}
-
 	return nil
 }
 
