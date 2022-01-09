@@ -50,3 +50,11 @@ func FromDomainInvoiceDetail(domain invoices.DatasDomain) DatasResponse {
 	}
 	return result
 }
+
+func GenerateReportFromListDomain(domlist []invoices.InvoiceDetailDomain) []InvoiceDetailResponse {
+	result := []InvoiceDetailResponse{}
+	for _, e := range domlist {
+		result = append(result, InvoiceDetailResponse{ID: e.ID, Name: e.Name, Email: e.Email, Amount: e.Amount, EventID: e.EventID, Link: e.Link, Status: "Belum Dibayar", CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt})
+	}
+	return result
+}

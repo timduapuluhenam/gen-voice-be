@@ -29,6 +29,7 @@ func (cl *ControllerList) RouteRegister(e *echo.Echo) {
 
 	invoices := e.Group("invoices")
 	invoices.POST("/add", cl.InvoiceController.CreateInvoiceDetail, middleware.JWTWithConfig(cl.JwtConfig))
+	invoices.GET("/generate_invoice", cl.InvoiceController.GetAllByUserID, middleware.JWTWithConfig(cl.JwtConfig))
 	e.POST("/notification", cl.NotifController.GetNotif)
 }
 

@@ -27,7 +27,7 @@ func (servUser *InvoiceService) CreateInvoiceDetail(invoiceDetailDomain *DatasDo
 	invoice, err := servUser.repository.CreateInvoiceDetail(invoiceDetailDomain)
 	_, errActivity := servUser.activityRepo.CreateActivity(&activities.Domain{
 		UserID:    invoiceDetailDomain.DataInvoice.UserID,
-		Activity:  fmt.Sprintf("Invoice %s berhasil ditambahkan.", invoice.DataInvoice.Name),
+		Activity:  fmt.Sprintf("Invoice %s successfully added.", invoice.DataInvoice.Name),
 		CreatedAt: invoice.DataInvoice.CreatedAt,
 		UpdatedAt: invoice.DataInvoice.UpdatedAt})
 
@@ -36,6 +36,14 @@ func (servUser *InvoiceService) CreateInvoiceDetail(invoiceDetailDomain *DatasDo
 	}
 	if errActivity != nil {
 		return DatasDomain{}, nil
+	}
+	return invoice, nil
+}
+
+func (servUser *InvoiceService) GetAllByUserID(userID int) ([]InvoiceDetailDomain, error) {
+	invoice, err := servUser.repository.GetAllByUserID(userID)
+	if err != nil {
+		return nil, err
 	}
 	return invoice, nil
 }

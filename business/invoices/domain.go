@@ -31,8 +31,10 @@ type InvoiceDetailDomain struct {
 }
 type Service interface {
 	CreateInvoiceDetail(invoiceDetailDomain *DatasDomain) (DatasDomain, error)
+	GetAllByUserID(userID int) ([]InvoiceDetailDomain, error)
 }
 
 type Repository interface {
 	CreateInvoiceDetail(invoiceDetailDomain *DatasDomain) (DatasDomain, error)
+	GetAllByUserID(userID int) ([]InvoiceDetailDomain, error)
 }
