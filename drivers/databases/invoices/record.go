@@ -5,7 +5,8 @@ import (
 	"encoding/hex"
 	"fmt"
 	"genVoice/business/invoices"
-	email "genVoice/helper/mail"
+
+	// email "genVoice/helper/mail"
 	"strconv"
 	"time"
 
@@ -52,7 +53,7 @@ func toInvoiceDetailDomain(invoice Datas) invoices.DatasDomain {
 	a.DataInvoice.UpdatedAt = invoice.DataInvoice.UpdatedAt
 
 	for _, v := range invoice.InvoiceDetail {
-		email.Email(v.Email, v.Name, v.Link, strconv.Itoa(v.Amount), invoice.DataInvoice.Name)
+		// email.Email(v.Email, v.Name, v.Link, strconv.Itoa(v.Amount), invoice.DataInvoice.Name)
 		a.InvoiceDetail = append(a.InvoiceDetail, invoices.InvoiceDetailDomain{ID: v.ID, Name: v.Name, Email: v.Email, Amount: v.Amount,
 			EventID: v.EventID, Link: v.Link, Status: v.Status, CreatedAt: v.CreatedAt, UpdatedAt: v.UpdatedAt})
 	}

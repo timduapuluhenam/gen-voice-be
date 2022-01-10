@@ -1,6 +1,7 @@
 package invoices
 
 import (
+	"fmt"
 	middlewareApp "genVoice/app/middlewares"
 	"genVoice/business/invoices"
 	controller "genVoice/controllers"
@@ -38,4 +39,14 @@ func (ctrl *InvoiceController) CreateInvoiceDetail(c echo.Context) error {
 	}
 
 	return controller.NewSuccessResponse(c, response.FromDomainInvoiceDetail(data))
+}
+
+func (ctrl *InvoiceController) GetAllByUserID(c echo.Context) error {
+	userID := middlewareApp.GetIdUser(c)
+	data, err := ctrl.InvoiceService.GetAllByUserID(userID)
+	if err != nil {
+		return controller.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	fmt.Print(data)
+	return controller.NewSuccessResponse(c, response.GenerateReportFromListDomain(data))
 }

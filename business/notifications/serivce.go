@@ -32,7 +32,7 @@ func (servUser *NotifService) GetNotif(status, signature_key string) error {
 
 		_, errActivity := servUser.activityRepo.CreateActivity(&activities.Domain{
 			UserID:   userID,
-			Activity: fmt.Sprintf("Pelanggan %s telah melakukan pembayaran sejumlah %d pada invoice %d", customer.Name, customer.Amount, customer.EventID)})
+			Activity: fmt.Sprintf("Customer %s has made payment of Rp %d on invoice %d", customer.Name, customer.Amount, customer.EventID)})
 
 		if errActivity != nil {
 			return nil

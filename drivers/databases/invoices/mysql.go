@@ -37,3 +37,35 @@ func (rep *MysqlInvoiceRepository) CreateInvoiceDetail(invoiceDetailDomain *invo
 	return toListDomain(invoic, invoiceDetail), nil
 
 }
+
+func (rep *MysqlInvoiceRepository) GetAllByUserID(userID int) ([]invoices.InvoiceDetailDomain, error) {
+	invoice := []Invoices{}
+	invoiceDetail := []InvoiceDetail{}
+	resultInvoice := rep.Conn.Find(&invoice, "user_iD = ?", userID)
+	result := []invoices.InvoiceDetailDomain{}
+	if resultInvoice.Error != nil {
+		return []invoices.InvoiceDetailDomain{}, resultInvoice.Error
+	}
+	for i := range invoice {
+		resultInvoiceDetail := rep.Conn.Find(&invoiceDetail, "event_id = ?", invoice[i].ID)
+		if resultInvoiceDetail.Error != nil {
+			return []invoices.InvoiceDetailDomain{}, resultInvoiceDetail.Error
+		}
+		for j := range invoiceDetail {
+			result = append(result, invoices.InvoiceDetailDomain{
+				ID:           invoiceDetail[j].ID,
+				Name:         invoiceDetail[j].Name,
+				SignatureKey: invoiceDetail[j].SignatureKey,
+				Email:        invoiceDetail[j].Email,
+				Status:       invoiceDetail[j].Status,
+				EventID:      invoiceDetail[j].EventID,
+				Amount:       invoiceDetail[j].Amount,
+				Link:         invoiceDetail[j].Link,
+				CreatedAt:    invoiceDetail[j].CreatedAt,
+				UpdatedAt:    invoiceDetail[j].UpdatedAt,
+			},
+			)
+		}
+	}
+	return result, nil
+}
