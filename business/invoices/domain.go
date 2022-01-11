@@ -18,6 +18,8 @@ type InvoiceDomain struct {
 }
 
 type InvoiceDetailDomain struct {
+	InvoiceName string
+
 	ID           int
 	Name         string
 	Email        string
