@@ -53,6 +53,7 @@ func (rep *MysqlInvoiceRepository) GetAllByUserID(userID int) ([]invoices.Invoic
 		}
 		for j := range invoiceDetail {
 			result = append(result, invoices.InvoiceDetailDomain{
+				InvoiceName:  invoice[i].Name,
 				ID:           invoiceDetail[j].ID,
 				Name:         invoiceDetail[j].Name,
 				SignatureKey: invoiceDetail[j].SignatureKey,

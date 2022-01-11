@@ -26,12 +26,13 @@ type InvoiceDetailResponse struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`
 
-	Amount    int       `json:"amount"`
-	EventID   int       `json:"event_id"`
-	Link      string    `json:"link"`
-	Status    string    `json:"status"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	Amount      int       `json:"amount"`
+	EventID     int       `json:"event_id"`
+	InvoiceName string    `json:"invoice_name"`
+	Link        string    `json:"link"`
+	Status      string    `json:"status"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
 func FromDomainInvoiceDetail(domain invoices.DatasDomain) DatasResponse {
@@ -54,7 +55,7 @@ func FromDomainInvoiceDetail(domain invoices.DatasDomain) DatasResponse {
 func GenerateReportFromListDomain(domlist []invoices.InvoiceDetailDomain) []InvoiceDetailResponse {
 	result := []InvoiceDetailResponse{}
 	for _, e := range domlist {
-		result = append(result, InvoiceDetailResponse{ID: e.ID, Name: e.Name, Email: e.Email, Amount: e.Amount, EventID: e.EventID, Link: e.Link, Status: e.Status, CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt})
+		result = append(result, InvoiceDetailResponse{ID: e.ID, Name: e.Name, Email: e.Email, Amount: e.Amount, EventID: e.EventID, InvoiceName: e.InvoiceName, Link: e.Link, Status: e.Status, CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt})
 	}
 	return result
 }

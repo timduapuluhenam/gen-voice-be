@@ -24,15 +24,17 @@ func FromDomainRegister(domain users.Domain) UserRegisterResponse {
 }
 
 type UserLoginResponse struct {
-	Message string `json:"message"`
-	ID      int    `json:"id"`
-	Token   string `json:"token"`
+	Message  string `json:"message"`
+	Username string `json:"username"`
+	ID       int    `json:"id"`
+	Token    string `json:"token"`
 }
 
 func FromDomainLogin(domain users.Domain) UserLoginResponse {
 	return UserLoginResponse{
-		Message: "Login Success",
-		ID:      domain.ID,
-		Token:   domain.Token,
+		Message:  "Login Success",
+		Username: domain.Username,
+		ID:       domain.ID,
+		Token:    domain.Token,
 	}
 }
