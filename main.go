@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 
+	"genVoice/helper/rimender"
+
 	_driverFactory "genVoice/drivers"
 
 	_userService "genVoice/business/users"
@@ -127,5 +129,6 @@ func main() {
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
+	go rimender.Rimender(db)
 	log.Fatal(e.Start(address))
 }

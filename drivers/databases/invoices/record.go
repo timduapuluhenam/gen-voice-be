@@ -25,6 +25,7 @@ type Invoices struct {
 	Name          string
 	UserID        int
 	TimeExpired   int
+	ExpiredStatus string          `gorm:"default:Not Yet"`
 	InvoiceDetail []InvoiceDetail `gorm:"foreignKey:EventID"`
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
