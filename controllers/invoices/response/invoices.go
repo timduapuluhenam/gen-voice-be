@@ -47,7 +47,7 @@ func FromDomainInvoiceDetail(domain invoices.DatasDomain) DatasResponse {
 
 	fmt.Print("domain invoice detail adasdas  ", domain.InvoiceDetail)
 	for _, e := range domain.InvoiceDetail {
-		result.InvoiceDetail = append(result.InvoiceDetail, InvoiceDetailResponse{ID: e.ID, Name: e.Name, Email: e.Email, Amount: e.Amount, EventID: e.EventID, Link: e.Link, Status: "Belum Dibayar", CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt, InvoiceName: e.InvoiceName})
+		result.InvoiceDetail = append(result.InvoiceDetail, InvoiceDetailResponse{ID: e.ID, Name: e.Name, Email: e.Email, Amount: e.Amount, EventID: e.EventID, Link: e.Link, Status: "Belum Dibayar", CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt, InvoiceName: result.DataInvoice.Name})
 	}
 	return result
 }
