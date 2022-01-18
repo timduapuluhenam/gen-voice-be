@@ -26,8 +26,6 @@ import (
 	_middleware "genVoice/app/middlewares"
 	_routes "genVoice/app/routes"
 
-	"os"
-
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/rs/cors"
@@ -37,7 +35,10 @@ import (
 )
 
 func init() {
-	viper.SetConfigFile(`app/configs/config.json`)
+	viper.SetConfigName("config")
+	viper.SetConfigType("json")
+	viper.AddConfigPath("./app/configs/")
+	viper.AddConfigPath(".")
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(err)
@@ -123,9 +124,9 @@ func main() {
 
 	routesInit.RouteRegister(e)
 	godotenv.Load()
-	port := os.Getenv("PORT")
+	port := viper.GetString(`server.address`)
 	fmt.Print(port)
-	address := fmt.Sprintf("%s:%s", "0.0.0.0", port)
+	address := fmt.Sprintf("%s%s", "0.0.0.0", port)
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
