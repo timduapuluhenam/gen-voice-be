@@ -63,5 +63,5 @@ jobs:
         run: |
           ssh development 'docker rm -vf $(docker ps -a -q) || true && \
           docker pull daffabarin/genvoice:1.0.0 && \
-          docker run -d -p 8080:8080 --name vaccine-api \
+          docker run -d -p 8080:8080 --name genvoice \
           daffabarin/genvoice:1.0.0'
