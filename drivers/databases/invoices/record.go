@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	// "github.com/labstack/gommon/email"
 	"github.com/midtrans/midtrans-go"
 	"github.com/midtrans/midtrans-go/snap"
 )
@@ -26,7 +27,7 @@ type Invoices struct {
 	UserID        int
 	TimeExpired   int
 	ExpiredStatus string          `gorm:"default:Not Yet"`
-	InvoiceDetail []InvoiceDetail `gorm:"foreignKey:EventID"`
+	InvoiceDetail []InvoiceDetail `gorm:"foreignKey:EventID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 	CreatedAt     time.Time
 	UpdatedAt     time.Time
 }
@@ -54,7 +55,9 @@ func toInvoiceDetailDomain(invoice Datas) invoices.DatasDomain {
 	a.DataInvoice.UpdatedAt = invoice.DataInvoice.UpdatedAt
 
 	for _, v := range invoice.InvoiceDetail {
-		// email.Email(v.Email, v.Name, v.Link, strconv.Itoa(v.Amount), invoice.DataInvoice.Name)
+		// timeAdd := invoice.DataInvoice.CreatedAt.AddDate(0, 0, invoice.DataInvoice.TimeExpired).String()
+		// tenggat := timeAdd[:10]
+		// email.Email(v.Email, v.Name, v.Link, strconv.Itoa(v.Amount), invoice.DataInvoice.Name, tenggat)
 		a.InvoiceDetail = append(a.InvoiceDetail, invoices.InvoiceDetailDomain{ID: v.ID, Name: v.Name, Email: v.Email, Amount: v.Amount,
 			EventID: v.EventID, Link: v.Link, Status: v.Status, CreatedAt: v.CreatedAt, UpdatedAt: v.UpdatedAt})
 	}

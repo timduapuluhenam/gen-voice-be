@@ -41,3 +41,15 @@ func fromDomain(domain users.Domain) Users {
 		UpdatedAt: domain.UpdatedAt,
 	}
 }
+
+func fromUpdateDomain(domain users.UpdateDomain) Users {
+	return Users{
+		ID:        domain.ID,
+		Name:      domain.Name,
+		Password:  domain.Password,
+		Email:     domain.Email,
+		Address:   domain.Address,
+		CreatedAt: domain.CreatedAt,
+		UpdatedAt: domain.UpdatedAt,
+	}
+}

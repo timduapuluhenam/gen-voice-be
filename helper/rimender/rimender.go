@@ -60,6 +60,7 @@ func Rimender(DB *gorm.DB) {
 			id := invoice[i].ID
 
 			timeAdd := invoice[i].CreatedAt.AddDate(0, 0, invoice[i].TimeExpired-1).String()
+			tenggat := invoice[i].CreatedAt.AddDate(0, 0, invoice[i].TimeExpired).String()
 			timeThn := timeAdd[:10]
 			fmt.Println(timeThn)
 
@@ -69,7 +70,7 @@ func Rimender(DB *gorm.DB) {
 				for j := 0; j < len(invoiceDetail); j++ {
 					email := invoiceDetail[j].Email
 					// fmt.Println(email)
-					emailRe.Email(email, invoiceDetail[j].Name, invoiceDetail[j].Link, strconv.Itoa(invoiceDetail[j].Amount), invoice[i].Name)
+					emailRe.Email(email, invoiceDetail[j].Name, invoiceDetail[j].Link, strconv.Itoa(invoiceDetail[j].Amount), invoice[i].Name, tenggat[:10])
 
 				}
 				DB.Model(&invoice).Where("id = ?", id).Update("expired_status", "Expired")

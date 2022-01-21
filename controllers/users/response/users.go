@@ -29,6 +29,14 @@ type UserLoginResponse struct {
 	ID       int    `json:"id"`
 	Token    string `json:"token"`
 }
+type UpdateUserResponse struct {
+	Message  string `json:"message"`
+	ID       int    `json:"id"`
+	Name     string `json:"name"`
+	Address  string `json:"address"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
 
 func FromDomainLogin(domain users.Domain) UserLoginResponse {
 	return UserLoginResponse{
@@ -36,5 +44,18 @@ func FromDomainLogin(domain users.Domain) UserLoginResponse {
 		Username: domain.Username,
 		ID:       domain.ID,
 		Token:    domain.Token,
+	}
+}
+
+func FromDomainUpdate(domain users.UpdateDomain) UpdateUserResponse {
+
+	// fmt.Println("DOMAIN : ", domain)
+	return UpdateUserResponse{
+		Message:  "Update Succesz",
+		Name:     domain.Name,
+		ID:       domain.ID,
+		Address:  domain.Address,
+		Email:    domain.Email,
+		Password: domain.Password,
 	}
 }
