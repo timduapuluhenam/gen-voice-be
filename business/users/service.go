@@ -69,3 +69,27 @@ func (servUser *UserService) Register(domain *Domain) (Domain, error) {
 	}
 	return user, nil
 }
+
+func (servUser *UserService) Update(domain *UpdateDomain) (UpdateDomain, error) {
+	if domain.Name == "" {
+		return UpdateDomain{}, business.ErrEmptyForm
+	}
+
+	if domain.Email == "" {
+		return UpdateDomain{}, business.ErrEmptyForm
+	}
+	if domain.Address == "" {
+		return UpdateDomain{}, business.ErrEmptyForm
+	}
+	if domain.Password == "" {
+		return UpdateDomain{}, business.ErrEmptyForm
+	}
+	encryptedPass, _ := encrypt.HashPassword(domain.Password)
+	domain.Password = encryptedPass
+	user, err := servUser.repository.Update(domain)
+
+	if err != nil {
+		return UpdateDomain{}, err
+	}
+	return user, nil
+}

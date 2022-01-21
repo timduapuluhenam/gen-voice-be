@@ -39,3 +39,9 @@ func (rep *MysqlUserRepository) Register(domain *users.Domain) (users.Domain, er
 
 	return toDomain(user), nil
 }
+
+func (rep *MysqlUserRepository) Update(domain *users.UpdateDomain) (users.UpdateDomain, error) {
+	user := fromUpdateDomain(*domain)
+	rep.Conn.Model(&Users{}).Where("id = ?", user.ID).Updates(user)
+	return *domain, nil
+}

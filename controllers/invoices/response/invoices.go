@@ -59,3 +59,13 @@ func GenerateReportFromListDomain(domlist []invoices.InvoiceDetailDomain) []Invo
 	}
 	return result
 }
+
+func FromDomainDeleteInvoice(deleteInvoice invoices.InvoiceDomain) InvoiceResponse {
+	result := InvoiceResponse{}
+	result.ID = deleteInvoice.ID
+	result.Name = deleteInvoice.Name
+	result.UserID = deleteInvoice.ID
+	result.UpdatedAt = deleteInvoice.UpdatedAt
+	result.CreatedAt = deleteInvoice.CreatedAt
+	return result
+}
