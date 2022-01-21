@@ -47,3 +47,11 @@ func (servUser *InvoiceService) GetAllByUserID(userID int) ([]InvoiceDetailDomai
 	}
 	return invoice, nil
 }
+
+func (servUser *InvoiceService) DeleteInvoice(invoiceID int) (InvoiceDomain, error) {
+	invoice, err := servUser.repository.DeleteInvoice(invoiceID)
+	if err != nil {
+		return InvoiceDomain{}, err
+	}
+	return invoice, nil
+}

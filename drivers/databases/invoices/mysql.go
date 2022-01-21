@@ -70,3 +70,24 @@ func (rep *MysqlInvoiceRepository) GetAllByUserID(userID int) ([]invoices.Invoic
 	}
 	return result, nil
 }
+
+func (rep *MysqlInvoiceRepository) DeleteInvoice(invoiceID int) (invoices.InvoiceDomain, error) {
+
+	// invoic := fromInvoiceDomain(invoiceDetailDomain)
+	invoice := Invoices{}
+	invoiceDomain := invoices.InvoiceDomain{}
+	rep.Conn.Find(&invoice, "ID=?", invoiceID)
+
+	invoiceDomain.ID = invoice.ID
+	invoiceDomain.UserID = invoice.ID
+	invoiceDomain.Name = invoice.Name
+	invoiceDomain.TimeExpired = invoice.TimeExpired
+	invoiceDomain.CreatedAt = invoice.CreatedAt
+	invoiceDomain.UpdatedAt = invoice.UpdatedAt
+
+	// fmt.Println(invoiceDomain)
+	rep.Conn.Where("ID=?", invoiceID).Delete(&invoice)
+
+	return invoiceDomain, nil
+
+}

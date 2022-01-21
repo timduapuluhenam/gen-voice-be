@@ -2,6 +2,7 @@ package users
 
 import (
 	"fmt"
+	middlewareApp "genVoice/app/middlewares"
 	"genVoice/business/users"
 	controller "genVoice/controllers"
 	"genVoice/controllers/users/request"
@@ -47,4 +48,24 @@ func (ctrl *UserController) Login(c echo.Context) error {
 	}
 
 	return controller.NewSuccessResponse(c, response.FromDomainLogin(data))
+}
+
+func (ctrl *UserController) Update(c echo.Context) error {
+	req := request.UsersUpdate{}
+	req.ID = middlewareApp.GetIdUser(c)
+	// fmt.Println()
+
+	if err := c.Bind(&req); err != nil {
+		return controller.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+	data, err := ctrl.UserService.Update(req.ToUpdateDomain())
+
+	// fmt.Println("DATA : ", data)
+
+	if err != nil {
+		return controller.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+	// fmt.Println("DATA2 : ", data)
+	response.FromDomainUpdate(data)
+	return controller.NewSuccessResponse(c, response.FromDomainUpdate(data))
 }

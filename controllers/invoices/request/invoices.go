@@ -22,6 +22,9 @@ type InvoiceDetail struct {
 	Status  string
 	EventID int
 }
+type DeleteInvoice struct {
+	InvoiceID int
+}
 
 func (req *Datas) ToInvoiceDetailDomain() *invoices.DatasDomain {
 
@@ -34,4 +37,12 @@ func (req *Datas) ToInvoiceDetailDomain() *invoices.DatasDomain {
 		result.InvoiceDetail = append(result.InvoiceDetail, invoices.InvoiceDetailDomain{Name: e.Name, Email: e.Email, Amount: e.Amount, EventID: e.EventID})
 	}
 	return result
+}
+
+func (req *DeleteInvoice) ToDeleteInvoiceDomain() *invoices.InvoiceDomain {
+	// middlewareApp.GetIdUser(echo.Context)
+	return &invoices.InvoiceDomain{
+		ID: req.InvoiceID,
+	}
+
 }

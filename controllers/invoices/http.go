@@ -50,3 +50,20 @@ func (ctrl *InvoiceController) GetAllByUserID(c echo.Context) error {
 	fmt.Print(data)
 	return controller.NewSuccessResponse(c, response.GenerateReportFromListDomain(data))
 }
+
+func (ctrl *InvoiceController) DeleteInvoice(c echo.Context) error {
+	req := request.DeleteInvoice{}
+
+	// req.DataInvoice.UserID = middlewareApp.GetIdUser(c)
+	if err := c.Bind(&req); err != nil {
+		return controller.NewErrorResponse(c, http.StatusBadRequest, err)
+	}
+
+	data, err := ctrl.InvoiceService.DeleteInvoice(req.InvoiceID)
+
+	if err != nil {
+		return controller.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	fmt.Print(" DATA : ", data)
+	return controller.NewSuccessResponse(c, response.FromDomainDeleteInvoice(data))
+}
