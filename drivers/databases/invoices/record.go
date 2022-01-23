@@ -33,7 +33,7 @@ type Invoices struct {
 }
 
 type InvoiceDetail struct {
-	ID           int `gorm:"primaryKey"`
+	ID           string `gorm:"primaryKey"`
 	Name         string
 	Email        string
 	Amount       int
