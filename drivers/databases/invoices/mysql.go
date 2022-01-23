@@ -91,3 +91,28 @@ func (rep *MysqlInvoiceRepository) DeleteInvoice(invoiceID int) (invoices.Invoic
 	return invoiceDomain, nil
 
 }
+
+
+func (rep *MysqlInvoiceRepository) GetInvoiceDetailByID(id string) (invoices.InvoiceDetailDomain, error) {
+
+	invoiceDetail := InvoiceDetail{}
+	invoice := Invoices{}
+	invoiceDetailDomain := invoices.InvoiceDetailDomain{}
+	rep.Conn.First(&invoiceDetail, "id = ?", id)
+	rep.Conn.First(&invoice, invoiceDetail.EventID)
+
+	invoiceDetailDomain.InvoiceName = invoice.Name
+	invoiceDetailDomain.ID = invoiceDetail.ID
+	invoiceDetailDomain.Name = invoiceDetail.Name
+	invoiceDetailDomain.Email = invoiceDetail.Email
+	invoiceDetailDomain.Amount = invoiceDetail.Amount
+	invoiceDetailDomain.EventID = invoiceDetail.EventID
+	invoiceDetailDomain.SignatureKey = invoiceDetail.SignatureKey
+	invoiceDetailDomain.Link = invoiceDetail.Link
+	invoiceDetailDomain.Status = invoiceDetail.Status
+	invoiceDetailDomain.CreatedAt = invoiceDetail.CreatedAt
+	invoiceDetailDomain.UpdatedAt = invoiceDetail.UpdatedAt
+
+	return invoiceDetailDomain, nil
+}
+

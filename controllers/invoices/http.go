@@ -67,3 +67,12 @@ func (ctrl *InvoiceController) DeleteInvoice(c echo.Context) error {
 	fmt.Print(" DATA : ", data)
 	return controller.NewSuccessResponse(c, response.FromDomainDeleteInvoice(data))
 }
+
+func (ctrl *InvoiceController) GetInvoiceDetailByID(c echo.Context) error {
+	id := c.Param("id")
+	data, err := ctrl.InvoiceService.GetInvoiceDetailByID(id)
+	if err != nil {
+		return controller.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	return controller.NewSuccessResponse(c, response.FromDomainGetInvoiceDetails(data))
+}
