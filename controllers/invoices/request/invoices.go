@@ -2,6 +2,8 @@ package request
 
 import (
 	"genVoice/business/invoices"
+	"genVoice/helper/idgenerator"
+	"strconv"
 )
 
 type Datas struct {
@@ -34,7 +36,9 @@ func (req *Datas) ToInvoiceDetailDomain() *invoices.DatasDomain {
 	result.DataInvoice.TimeExpired = req.DataInvoice.TimeExpired
 
 	for _, e := range req.InvoiceDetail {
-		result.InvoiceDetail = append(result.InvoiceDetail, invoices.InvoiceDetailDomain{Name: e.Name, Email: e.Email, Amount: e.Amount, EventID: e.EventID})
+		id, _ := idgenerator.SF.NextID()
+		IDstr := strconv.FormatUint(id, 10)
+		result.InvoiceDetail = append(result.InvoiceDetail, invoices.InvoiceDetailDomain{ID: IDstr, Name: e.Name, Email: e.Email, Amount: e.Amount, EventID: e.EventID})
 	}
 	return result
 }

@@ -20,7 +20,7 @@ type InvoiceDomain struct {
 type InvoiceDetailDomain struct {
 	InvoiceName string
 
-	ID           int
+	ID           string
 	Name         string
 	Email        string
 	Amount       int

@@ -22,7 +22,7 @@ type InvoiceResponse struct {
 
 type InvoiceDetailResponse struct {
 	// Message   string    `json:"message"`
-	ID    int    `json:"id:"`
+	ID    string `json:"id:"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
 

@@ -25,15 +25,15 @@ func NewInvoiceService(repo Repository, activityRepo activities.Repository, time
 
 func (servUser *InvoiceService) CreateInvoiceDetail(invoiceDetailDomain *DatasDomain) (DatasDomain, error) {
 	invoice, err := servUser.repository.CreateInvoiceDetail(invoiceDetailDomain)
+	if err != nil {
+		return DatasDomain{}, err
+	}
 	_, errActivity := servUser.activityRepo.CreateActivity(&activities.Domain{
 		UserID:    invoiceDetailDomain.DataInvoice.UserID,
 		Activity:  fmt.Sprintf("Invoice %s successfully added.", invoice.DataInvoice.Name),
 		CreatedAt: invoice.DataInvoice.CreatedAt,
 		UpdatedAt: invoice.DataInvoice.UpdatedAt})
 
-	if err != nil {
-		return DatasDomain{}, err
-	}
 	if errActivity != nil {
 		return DatasDomain{}, nil
 	}
