@@ -69,3 +69,31 @@ func FromDomainDeleteInvoice(deleteInvoice invoices.InvoiceDomain) InvoiceRespon
 	result.CreatedAt = deleteInvoice.CreatedAt
 	return result
 }
+
+// ID    string `json:"id:"`
+// 	Name  string `json:"name"`
+// 	Email string `json:"email"`
+
+// 	Amount      int       `json:"amount"`
+// 	EventID     int       `json:"event_id"`
+// 	InvoiceName string    `json:"invoice_name"`
+// 	Link        string    `json:"link"`
+// 	Status      string    `json:"status"`
+// 	CreatedAt   time.Time `json:"created_at"`
+// 	UpdatedAt   time.Time `json:"updated_at"`
+func FromDomainGetInvoiceDetails(domain invoices.InvoiceDetailDomain) InvoiceDetailResponse {
+	result := InvoiceDetailResponse{}
+	
+	result.ID = domain.ID
+	result.Name = domain.Name
+	result.Email = domain.Email
+	result.Amount = domain.Amount
+	result.EventID = domain.EventID
+	result.InvoiceName = domain.InvoiceName
+	result.Link = domain.Link
+	result.Status = domain.Status
+	result.CreatedAt = domain.CreatedAt
+	result.UpdatedAt = domain.UpdatedAt
+
+	return result
+}
