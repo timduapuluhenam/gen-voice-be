@@ -13,11 +13,12 @@ type DatasResponse struct {
 
 type InvoiceResponse struct {
 	// Message   string    `json:"message"`
-	ID        int       `json:"id:"`
-	Name      string    `json:"name"`
-	UserID    int       `json:"user_id"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	ID        	int       `json:"id:"`
+	Name      	string    `json:"name"`
+	UserID    	int       `json:"user_id"`
+	TimeExpired int		   `json:"TimeExpired"`
+	CreatedAt 	time.Time `json:"created_at"`
+	UpdatedAt 	time.Time `json:"updated_at"`
 }
 
 type InvoiceDetailResponse struct {
@@ -70,17 +71,6 @@ func FromDomainDeleteInvoice(deleteInvoice invoices.InvoiceDomain) InvoiceRespon
 	return result
 }
 
-// ID    string `json:"id:"`
-// 	Name  string `json:"name"`
-// 	Email string `json:"email"`
-
-// 	Amount      int       `json:"amount"`
-// 	EventID     int       `json:"event_id"`
-// 	InvoiceName string    `json:"invoice_name"`
-// 	Link        string    `json:"link"`
-// 	Status      string    `json:"status"`
-// 	CreatedAt   time.Time `json:"created_at"`
-// 	UpdatedAt   time.Time `json:"updated_at"`
 func FromDomainGetInvoiceDetails(domain invoices.InvoiceDetailDomain) InvoiceDetailResponse {
 	result := InvoiceDetailResponse{}
 	
@@ -95,5 +85,13 @@ func FromDomainGetInvoiceDetails(domain invoices.InvoiceDetailDomain) InvoiceDet
 	result.CreatedAt = domain.CreatedAt
 	result.UpdatedAt = domain.UpdatedAt
 
+	return result
+}
+
+func FromDomainInvoices(domlist []invoices.InvoiceDomain) []InvoiceResponse {
+	result := []InvoiceResponse{}
+	for _, e := range domlist {
+		result = append(result, InvoiceResponse{ID: e.ID, UserID: e.ID,Name: e.Name, TimeExpired: e.TimeExpired,CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt})
+	}
 	return result
 }

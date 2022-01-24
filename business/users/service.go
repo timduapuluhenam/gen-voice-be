@@ -1,7 +1,6 @@
 package users
 
 import (
-	"fmt"
 	"time"
 
 	"genVoice/app/middlewares"
@@ -24,20 +23,19 @@ func NewUserService(repo Repository, timeout time.Duration, jwtauth *middlewares
 }
 
 func (servUser *UserService) Login(username, password string) (Domain, error) {
-	fmt.Print("service bisnis", username, password)
 	if username == "" {
 		return Domain{}, business.ErrEmptyForm
 	}
 	if password == "" {
 		return Domain{}, business.ErrEmptyForm
 	}
-
+	
 	user, err := servUser.repository.Login(username, password)
 	if err != nil {
 		return Domain{}, err
 	}
-	validPass := encrypt.CheckPasswordHash(password, user.Password)
-	if !validPass {
+	valid := encrypt.CheckPasswordHash(password,user.Password)
+	if !valid {
 		return Domain{}, business.ErrUser
 	}
 	user.Token = servUser.jwtAuth.GenerateToken(user.ID, "user")
@@ -71,21 +69,10 @@ func (servUser *UserService) Register(domain *Domain) (Domain, error) {
 }
 
 func (servUser *UserService) Update(domain *UpdateDomain) (UpdateDomain, error) {
-	if domain.Name == "" {
-		return UpdateDomain{}, business.ErrEmptyForm
+	if domain.Password != "" {
+		encryptedPass, _ := encrypt.HashPassword(domain.Password)
+		domain.Password = encryptedPass
 	}
-
-	if domain.Email == "" {
-		return UpdateDomain{}, business.ErrEmptyForm
-	}
-	if domain.Address == "" {
-		return UpdateDomain{}, business.ErrEmptyForm
-	}
-	if domain.Password == "" {
-		return UpdateDomain{}, business.ErrEmptyForm
-	}
-	encryptedPass, _ := encrypt.HashPassword(domain.Password)
-	domain.Password = encryptedPass
 	user, err := servUser.repository.Update(domain)
 
 	if err != nil {

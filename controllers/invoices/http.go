@@ -76,3 +76,13 @@ func (ctrl *InvoiceController) GetInvoiceDetailByID(c echo.Context) error {
 	}
 	return controller.NewSuccessResponse(c, response.FromDomainGetInvoiceDetails(data))
 }
+
+func (ctrl *InvoiceController) GetAllEventByUserID(c echo.Context) error {
+	userID := middlewareApp.GetIdUser(c)
+	data, err := ctrl.InvoiceService.GetAllEventByUserID(userID)
+	if err != nil {
+		return controller.NewErrorResponse(c, http.StatusInternalServerError, err)
+	}
+	fmt.Print(data)
+	return controller.NewSuccessResponse(c, response.FromDomainInvoices(data))
+}

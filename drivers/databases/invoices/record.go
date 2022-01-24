@@ -99,6 +99,14 @@ func toListDomain(use Invoices, invoic []InvoiceDetail) invoices.DatasDomain {
 	return toInvoiceDetailDomain(dts)
 }
 
+func toListInvoiceDomain(inv []Invoices) []invoices.InvoiceDomain {
+	res := []invoices.InvoiceDomain{}
+	for i := 0; i < len(inv); i++ {
+		res = append(res, invoices.InvoiceDomain{ID: inv[i].ID,UserID: inv[i].UserID,Name: inv[i].Name,TimeExpired: inv[i].TimeExpired,CreatedAt: inv[i].CreatedAt,UpdatedAt: inv[i].UpdatedAt})
+	}
+	return res
+}
+
 var s snap.Client
 
 func paymentLink(datas []InvoiceDetail, timeExpired int) []InvoiceDetail {
