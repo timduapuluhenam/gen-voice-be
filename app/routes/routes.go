@@ -33,6 +33,7 @@ func (cl *ControllerList) RouteRegister(e *echo.Echo) {
 	invoices.GET("/generate_invoice", cl.InvoiceController.GetAllByUserID, middleware.JWTWithConfig(cl.JwtConfig))
 	invoices.DELETE("/delete", cl.InvoiceController.DeleteInvoice, middleware.JWTWithConfig(cl.JwtConfig))
 	invoices.GET("/:id", cl.InvoiceController.GetInvoiceDetailByID)
+	invoices.GET("/event", cl.InvoiceController.GetAllEventByUserID, middleware.JWTWithConfig(cl.JwtConfig))
 
 	e.POST("/notification", cl.NotifController.GetNotif)
 }

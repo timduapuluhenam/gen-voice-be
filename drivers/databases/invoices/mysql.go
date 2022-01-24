@@ -116,3 +116,12 @@ func (rep *MysqlInvoiceRepository) GetInvoiceDetailByID(id string) (invoices.Inv
 	return invoiceDetailDomain, nil
 }
 
+func (rep *MysqlInvoiceRepository) GetAllEventByUserID(userID int) ([]invoices.InvoiceDomain,error) {
+	invoice := []Invoices{}
+	resultInvoice := rep.Conn.Find(&invoice, "user_iD = ?", userID)
+	if resultInvoice.Error != nil {
+		return nil, resultInvoice.Error
+	}
+	return toListInvoiceDomain(invoice),nil
+}
+

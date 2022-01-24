@@ -63,3 +63,11 @@ func (servUser *InvoiceService) GetInvoiceDetailByID(id string) (InvoiceDetailDo
 	}
 	return invoice, nil
 }
+
+func (servUser *InvoiceService) GetAllEventByUserID(userID int) ([]InvoiceDomain, error){
+	invoice, err := servUser.repository.GetAllEventByUserID(userID)
+	if err != nil {
+		return nil, err
+	}
+	return invoice, nil
+}

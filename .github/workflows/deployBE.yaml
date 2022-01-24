@@ -1,13 +1,8 @@
 name : deploy backend
 on : 
-  pull_request:
-    branches :
-      - 'main'
   push:
     branches :
       - 'main'
-      - 'feat/*'
-  
 jobs:
   unit-test : 
     name : 'unitTest'
