@@ -13,12 +13,12 @@ type DatasResponse struct {
 
 type InvoiceResponse struct {
 	// Message   string    `json:"message"`
-	ID        	int       `json:"id:"`
-	Name      	string    `json:"name"`
-	UserID    	int       `json:"user_id"`
-	TimeExpired int		   `json:"TimeExpired"`
-	CreatedAt 	time.Time `json:"created_at"`
-	UpdatedAt 	time.Time `json:"updated_at"`
+	ID          int       `json:"id:"`
+	Name        string    `json:"name"`
+	UserID      int       `json:"user_id"`
+	TimeExpired int       `json:"TimeExpired"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
 }
 
 type InvoiceDetailResponse struct {
@@ -43,6 +43,7 @@ func FromDomainInvoiceDetail(domain invoices.DatasDomain) DatasResponse {
 	result.DataInvoice.ID = domain.DataInvoice.ID
 	result.DataInvoice.Name = domain.DataInvoice.Name
 	result.DataInvoice.UserID = domain.DataInvoice.UserID
+	result.DataInvoice.TimeExpired = domain.DataInvoice.TimeExpired
 	result.DataInvoice.CreatedAt = domain.DataInvoice.CreatedAt
 	result.DataInvoice.UpdatedAt = domain.DataInvoice.UpdatedAt
 
@@ -66,6 +67,7 @@ func FromDomainDeleteInvoice(deleteInvoice invoices.InvoiceDomain) InvoiceRespon
 	result.ID = deleteInvoice.ID
 	result.Name = deleteInvoice.Name
 	result.UserID = deleteInvoice.ID
+	result.TimeExpired = deleteInvoice.TimeExpired
 	result.UpdatedAt = deleteInvoice.UpdatedAt
 	result.CreatedAt = deleteInvoice.CreatedAt
 	return result
@@ -73,7 +75,7 @@ func FromDomainDeleteInvoice(deleteInvoice invoices.InvoiceDomain) InvoiceRespon
 
 func FromDomainGetInvoiceDetails(domain invoices.InvoiceDetailDomain) InvoiceDetailResponse {
 	result := InvoiceDetailResponse{}
-	
+
 	result.ID = domain.ID
 	result.Name = domain.Name
 	result.Email = domain.Email
@@ -91,7 +93,7 @@ func FromDomainGetInvoiceDetails(domain invoices.InvoiceDetailDomain) InvoiceDet
 func FromDomainInvoices(domlist []invoices.InvoiceDomain) []InvoiceResponse {
 	result := []InvoiceResponse{}
 	for _, e := range domlist {
-		result = append(result, InvoiceResponse{ID: e.ID, UserID: e.ID,Name: e.Name, TimeExpired: e.TimeExpired,CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt})
+		result = append(result, InvoiceResponse{ID: e.ID, UserID: e.ID, Name: e.Name, TimeExpired: e.TimeExpired, CreatedAt: e.CreatedAt, UpdatedAt: e.UpdatedAt})
 	}
 	return result
 }
