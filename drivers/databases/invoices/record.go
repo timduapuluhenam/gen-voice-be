@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"genVoice/business/invoices"
 
-	// email "genVoice/helper/mail"
+	email "genVoice/helper/mail"
 	"strconv"
 	"time"
 
@@ -51,13 +51,14 @@ func toInvoiceDetailDomain(invoice Datas) invoices.DatasDomain {
 	a.DataInvoice.ID = invoice.DataInvoice.ID
 	a.DataInvoice.Name = invoice.DataInvoice.Name
 	a.DataInvoice.UserID = invoice.DataInvoice.UserID
+	a.DataInvoice.TimeExpired = invoice.DataInvoice.TimeExpired
 	a.DataInvoice.CreatedAt = invoice.DataInvoice.CreatedAt
 	a.DataInvoice.UpdatedAt = invoice.DataInvoice.UpdatedAt
 
 	for _, v := range invoice.InvoiceDetail {
-		// timeAdd := invoice.DataInvoice.CreatedAt.AddDate(0, 0, invoice.DataInvoice.TimeExpired).String()
-		// tenggat := timeAdd[:10]
-		// email.Email(v.Email, v.Name, v.Link, strconv.Itoa(v.Amount), invoice.DataInvoice.Name, tenggat)
+		timeAdd := invoice.DataInvoice.CreatedAt.AddDate(0, 0, invoice.DataInvoice.TimeExpired).String()
+		tenggat := timeAdd[:10]
+		email.Email(v.Email, v.Name, v.Link, strconv.Itoa(v.Amount), invoice.DataInvoice.Name, tenggat)
 		a.InvoiceDetail = append(a.InvoiceDetail, invoices.InvoiceDetailDomain{ID: v.ID, Name: v.Name, Email: v.Email, Amount: v.Amount,
 			EventID: v.EventID, Link: v.Link, Status: v.Status, CreatedAt: v.CreatedAt, UpdatedAt: v.UpdatedAt})
 	}
@@ -102,7 +103,7 @@ func toListDomain(use Invoices, invoic []InvoiceDetail) invoices.DatasDomain {
 func toListInvoiceDomain(inv []Invoices) []invoices.InvoiceDomain {
 	res := []invoices.InvoiceDomain{}
 	for i := 0; i < len(inv); i++ {
-		res = append(res, invoices.InvoiceDomain{ID: inv[i].ID,UserID: inv[i].UserID,Name: inv[i].Name,TimeExpired: inv[i].TimeExpired,CreatedAt: inv[i].CreatedAt,UpdatedAt: inv[i].UpdatedAt})
+		res = append(res, invoices.InvoiceDomain{ID: inv[i].ID, UserID: inv[i].UserID, Name: inv[i].Name, TimeExpired: inv[i].TimeExpired, CreatedAt: inv[i].CreatedAt, UpdatedAt: inv[i].UpdatedAt})
 	}
 	return res
 }

@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"time"
 
-	// emailSucces "genVoice/helper/mail/mailSuccess"
+	emailSucces "genVoice/helper/mail/mailSuccess"
 
 	"gorm.io/gorm"
 )
@@ -37,14 +37,10 @@ func (rep *MysqlNotifRepository) GetNotif(status, signature_key string) error {
 		rep.Conn.Find(&invoiceDetail, "signature_key = ? ", signature_key)
 		rep.Conn.Find(&invoice, "id = ? ", invoiceDetail.EventID)
 		rep.Conn.Model(&InvoiceDetail{}).Where("signature_key = ? ", signature_key).Update("status", "Telah Dibayar").Update("updated_at", time)
-		// if invoiceDetail.Email != "" {
-		// 	// emailSucces.Email(invoiceDetail.Email, invoiceDetail.Name, strconv.Itoa(invoiceDetail.Amount), invoice.Name)
-		// }
+		if invoiceDetail.Email != "" {
+			emailSucces.Email(invoiceDetail.Email, invoiceDetail.Name, strconv.Itoa(invoiceDetail.Amount), invoice.Name)
+		}
 	}
-	fmt.Println(invoiceDetail)
-	fmt.Println(invoice)
-
-	// Email(to string, name string, amount string, event string)
 	return nil
 
 }
