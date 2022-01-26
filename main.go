@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"genVoice/helper/rimender"
 
@@ -124,9 +125,9 @@ func main() {
 
 	routesInit.RouteRegister(e)
 	godotenv.Load()
-	port := viper.GetString(`server.address`)
+	port := os.Getenv("PORT")
 	fmt.Print(port)
-	address := fmt.Sprintf("%s%s", "0.0.0.0", port)
+	address := fmt.Sprintf("%s%s", "0.0.0.0:", port)
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
