@@ -40,7 +40,7 @@ type InvoiceDetail struct {
 	EventID      int
 	SignatureKey string
 	Link         string
-	Status       string `gorm:"default:Belum Dibayar"`
+	Status       string `gorm:"default:Not Paid"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }
@@ -58,7 +58,7 @@ func toInvoiceDetailDomain(invoice Datas) invoices.DatasDomain {
 	for _, v := range invoice.InvoiceDetail {
 		timeAdd := invoice.DataInvoice.CreatedAt.AddDate(0, 0, invoice.DataInvoice.TimeExpired).String()
 		tenggat := timeAdd[:10]
-		email.Email(v.Email, v.Name, v.Link, strconv.Itoa(v.Amount), invoice.DataInvoice.Name, tenggat)
+		email.Email(v.Email, v.Name, v.Link, strconv.Itoa(v.Amount), invoice.DataInvoice.Name, tenggat, v.ID)
 		a.InvoiceDetail = append(a.InvoiceDetail, invoices.InvoiceDetailDomain{ID: v.ID, Name: v.Name, Email: v.Email, Amount: v.Amount,
 			EventID: v.EventID, Link: v.Link, Status: v.Status, CreatedAt: v.CreatedAt, UpdatedAt: v.UpdatedAt})
 	}

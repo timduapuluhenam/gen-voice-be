@@ -196,13 +196,24 @@
                     <!--[if (!mso)&(!IE)]><!-->
                     <div style="padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;">
                       <!--<![endif]-->
+                      
+                      
+                      
+
 
                       <table style="font-family:'Cabin',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                
+                        <p style="margin-top: 10px; text-align: center;">invoice id : {{ .invoiceId }}</p>
+   
                         <tbody>
+                       
                           <tr>
+                            
                             <td style="overflow-wrap:break-word;word-break:break-word;padding:33px 55px;font-family:'Cabin',sans-serif;" align="left">
+    
 
                               <div style="line-height: 160%; text-align: center; word-wrap: break-word;">
+                               
                                 <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 22px; line-height: 35.2px;">Hi,{{ .username }} </span></p>
                                 <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 18px; line-height: 28.8px;">Anda memiliki tagihan <span style="color: #1f3a57; font-weight: 900">{{ .event }}</span>  yang harus dibayarkan sebesar <span style="color: #1f3a57; font-weight: 900;">Rp {{ .amount }}</span> dengan tenggat waktu <span style="color: #1f3a57; font-weight: 900;">{{ .tanggal }}</span>. Anda bisa mengeklik tombol dibawah untuk melakukan teransaksi yang diperlukan ! </span></p>
                               </div>

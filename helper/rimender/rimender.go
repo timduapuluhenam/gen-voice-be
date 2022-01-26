@@ -70,7 +70,7 @@ func Rimender(DB *gorm.DB) {
 				for j := 0; j < len(invoiceDetail); j++ {
 					email := invoiceDetail[j].Email
 					// fmt.Println(email)
-					emailRe.Email(email, invoiceDetail[j].Name, invoiceDetail[j].Link, strconv.Itoa(invoiceDetail[j].Amount), invoice[i].Name, tenggat[:10])
+					emailRe.Email(email, invoiceDetail[j].Name, invoiceDetail[j].Link, strconv.Itoa(invoiceDetail[j].Amount), invoice[i].Name, tenggat[:10], invoiceDetail[j].ID)
 
 				}
 				DB.Model(&invoice).Where("id = ?", id).Update("expired_status", "Expired")
