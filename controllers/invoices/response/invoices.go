@@ -13,7 +13,7 @@ type DatasResponse struct {
 
 type InvoiceResponse struct {
 	// Message   string    `json:"message"`
-	ID          int       `json:"id:"`
+	ID          int       `json:"id"`
 	Name        string    `json:"name"`
 	UserID      int       `json:"user_id"`
 	TimeExpired int       `json:"TimeExpired"`
@@ -23,7 +23,7 @@ type InvoiceResponse struct {
 
 type InvoiceDetailResponse struct {
 	// Message   string    `json:"message"`
-	ID    string `json:"id:"`
+	ID    string `json:"id"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
 
