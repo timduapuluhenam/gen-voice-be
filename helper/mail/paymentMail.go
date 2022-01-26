@@ -14,18 +14,18 @@ import (
 const CONFIG_SMTP_HOST = "smtp.gmail.com"
 const CONFIG_SMTP_PORT = 587
 const CONFIG_SENDER_NAME = "PT. Genvoice Indonesia <emailanda@gmail.com>"
-const CONFIG_AUTH_EMAIL = "timduapuluhenam@gmail.com"
-const CONFIG_AUTH_PASSWORD = "tim26hore123"
+const CONFIG_AUTH_EMAIL = "muhamadreza9ac@gmail.com"
+const CONFIG_AUTH_PASSWORD = "ilovereza123"
 
 // var variable = "Dewi Novita Sari"
 
-func Email(to string, name string, link string, amount string, event string, tanggal string) {
+func Email(to string, name string, link string, amount string, event string, tanggal string, invoiceId string) {
 	t, err := template.ParseFiles("template3.html")
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 	buffer := new(bytes.Buffer)
-	t.Execute(buffer, map[string]string{"username": name, "link": link, "amount": amount, "event": event, "tanggal": tanggal})
+	t.Execute(buffer, map[string]string{"username": name, "link": link, "amount": amount, "event": event, "tanggal": tanggal, "invoiceId": invoiceId})
 
 	mailer := gomail.NewMessage()
 	mailer.SetHeader("From", CONFIG_SENDER_NAME)

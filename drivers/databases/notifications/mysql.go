@@ -36,7 +36,7 @@ func (rep *MysqlNotifRepository) GetNotif(status, signature_key string) error {
 	if status == "settlement" {
 		rep.Conn.Find(&invoiceDetail, "signature_key = ? ", signature_key)
 		rep.Conn.Find(&invoice, "id = ? ", invoiceDetail.EventID)
-		rep.Conn.Model(&InvoiceDetail{}).Where("signature_key = ? ", signature_key).Update("status", "Telah Dibayar").Update("updated_at", time)
+		rep.Conn.Model(&InvoiceDetail{}).Where("signature_key = ? ", signature_key).Update("status", "Paid").Update("updated_at", time)
 		if invoiceDetail.Email != "" {
 			emailSucces.Email(invoiceDetail.Email, invoiceDetail.Name, strconv.Itoa(invoiceDetail.Amount), invoice.Name)
 		}
