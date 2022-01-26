@@ -12,5 +12,7 @@ WORKDIR /root/
 RUN apk add --no-cache tzdata
 COPY --from=builder /app/app/configs/config.json .
 COPY --from=builder /app/main .
+COPY --from=builder /app/template3.html .
+COPY --from=builder /app/invoice.html .
 EXPOSE 8000
 CMD ["./main"]
