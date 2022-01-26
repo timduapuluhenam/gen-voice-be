@@ -12,7 +12,7 @@ import (
 )
 
 const CONFIG_SMTP_HOST = "smtp.gmail.com"
-const CONFIG_SMTP_PORT = 587
+const CONFIG_SMTP_PORT = 25
 const CONFIG_SENDER_NAME = "PT. Genvoice Indonesia <emailanda@gmail.com>"
 const CONFIG_AUTH_EMAIL = "timduapuluhenam@gmail.com"
 const CONFIG_AUTH_PASSWORD = "tim26hore123"
